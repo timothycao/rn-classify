@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
+import axios from 'axios';
 
 const CameraComponent = props => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -19,6 +20,11 @@ const CameraComponent = props => {
     const capturedPhoto = await camera.current.takePictureAsync();
     setPhoto({ photo: capturedPhoto });
   };
+
+  const classifyPhoto = async () => {
+    const { data } = await axios.put(`/api/vision/${photo.photo.uri}`)
+    console.log(data);
+  }
 
   if (hasPermission === null) {
     return <View />;
@@ -49,6 +55,15 @@ const CameraComponent = props => {
             }}
             onPress={capturePhoto}>
             <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Capture </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              alignSelf: 'flex-end',
+              alignItems: 'center',
+            }}
+            onPress={classifyPhoto}>
+            <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Classify </Text>
           </TouchableOpacity>
         </View>
       </Camera>
