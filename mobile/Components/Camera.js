@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
 import axios from 'axios';
+import { NetworkInfo } from 'react-native-network-info';
 
 const CameraComponent = props => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -22,7 +23,15 @@ const CameraComponent = props => {
   };
 
   const classifyPhoto = async () => {
-    const { data } = await axios.put(`/api/vision/${photo.photo.uri}`)
+    // const { data } = await axios.put(`/api/vision/${photo.photo.uri}`)
+    const { data } = await axios({
+      method: 'PUT',
+      url: '/api/vision',
+      baseURL: 'LOCAL_IP_ADDRESS',
+      params: {
+        uri: photo.photo.uri
+      }
+    });
     console.log(data);
   }
 
@@ -33,6 +42,9 @@ const CameraComponent = props => {
     return <Text>No access to camera</Text>;
   }
   console.log(photo);
+  NetworkInfo.getIPAddress().then(ipAddress => {
+    console.log(ipAddress);
+  });
   return (
     <View style={{ flex: 1 }}>
       <Camera
