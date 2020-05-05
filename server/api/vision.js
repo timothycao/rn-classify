@@ -8,13 +8,15 @@ const client = new vision.ImageAnnotatorClient({
   keyFilename: 'api-key.json'
 });
 
-router.put('/:image', async (req, res, next) => {
+router.get('/test', async (req, res, next) => {
 
-  // Performs label detection on the image file
-  const [result] = await client.labelDetection('./test.jpg');
-  const labels = result.labelAnnotations;
-  console.log('Labels:');
-  labels.forEach(label => console.log(label.description));
+    // Performs label detection on the image file
+    const [result] = await client.labelDetection('./test.jpg');
+    const labels = result.labelAnnotations;
+    console.log('Labels:');
+    labels.forEach(label => console.log(label.description));
 
-  res.send(labels);
+    res.send(labels);
 });
+
+router.put('/:image', async (req, res, next) => {});

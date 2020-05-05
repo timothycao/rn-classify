@@ -25,15 +25,20 @@ const CameraComponent = props => {
   const classifyPhoto = async () => {
     let ipAddress = await Network.getIpAddressAsync();
     console.log(ipAddress)
-    // const { data } = await axios.put(`/api/vision/${photo.photo.uri}`)
+
     const { data } = await axios({
-      method: 'PUT',
-      url: '/api/vision',
-      baseURL: `${ipAddress}`,
-      params: {
-        uri: photo.photo.uri
-      }
+      method: 'GET',
+      url: '/api/test',
+      baseURL: `${ipAddress}`
     });
+    // const { data } = await axios({
+    //   method: 'PUT',
+    //   url: '/api/vision',
+    //   baseURL: `${ipAddress}`,
+    //   params: {
+    //     uri: photo.photo.uri
+    //   }
+    // });
     console.log(data);
   }
 
